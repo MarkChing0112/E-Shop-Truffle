@@ -1,4 +1,4 @@
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity >=0.5.0 <0.9.0;
 
 contract Purchasing {
     event Product(string product, uint quantity, string url, string price, string description, string company, string id);

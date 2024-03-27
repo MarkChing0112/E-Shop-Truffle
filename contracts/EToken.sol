@@ -1,4 +1,4 @@
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity >=0.5.0 <0.9.0;
 
 contract Etoken {
     mapping (address => uint256) _balances;
@@ -10,14 +10,16 @@ contract Etoken {
     uint8 public decimals = 0;
 
     // contract owner
-    address public owner;
+    address public owner = msg.sender;
     address public treasury;
 
     uint256 public  _totalSupply = 150;
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
-
-    constructor() public {
-        owner = msg.sender;
+    
+       
+    
+     constructor() public {
+//         owner = msg.sender;
         
         treasury = address(0x53e971a9f6b888fa151673Ff98Bc34023E6FE7C5);
 
