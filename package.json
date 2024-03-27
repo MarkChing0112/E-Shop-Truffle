@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@drizzle/react-plugin": "^1.5.3",
+    "@drizzle/store": "^1.5.3",
+    "drizzle-react-components": "^1.4.0",
+    "web3": "^4.7.0"
+  }
+}
