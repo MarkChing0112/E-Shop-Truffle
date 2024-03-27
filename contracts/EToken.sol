@@ -1,6 +1,6 @@
 pragma solidity >=0.5.0 <0.9.0;
 
-contract Etoken {
+contract EToken {
     mapping (address => uint256) _balances;
     // mapping (address => mapping(address => uint256)) _allowed;
 
