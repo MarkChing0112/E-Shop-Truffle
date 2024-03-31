@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="module" src="index.js"></script>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>E Shop</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <section class="hero is-black is-medium" id="my-hero">
+        <!-- Hero head: will stick at the top -->
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    
+                    <div class="navbar-brand">
+                        <span class="navbar-burger burger" data-target="navbarMenuHeroA">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div></div><a>Wallet: </a></div>
+                    
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <!-- <div class="navbar-end">
+                            <div class="buttons">
+                                <a class="navbar-item is-success button has-text-white">
+                                    <span>
+                                        Shopping Cart
+                                    </span>
+                                    <span class="icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </span>
+                                </a>
+                            </div>
+                            
+                        </div> -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- Hero footer: will stick at the bottom -->
+    </section>
+
+    <section class="section container">
+        <div id="product-area" class="columns is-multiline">
+            <!-- Products Go Here -->
+            <div id="products">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4 product-name" id="product_name">Product Name </p>
+                                <p class="subtitle is-7"><span class="product-amount" id="product_quantity">6</span> in stock</p>
+                                <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
+                                        class="product-price" id="product_price">6</span></p>
+                            </div>
+                            <div class="buttons">
+                                <div class="button is-warning buy-now">
+                                    Buy Now
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="add-product" class="column is-full-mobile is-full-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+                <a class="button is-large is-fullwidth is-info" onclick="$( '.modal' ).addClass('is-active');">
+                    <span class="icon is-large">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span>
+                        Add New Product
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <div class="modal" id="add-new-product">
+        <div class="modal-background" onclick="$( '.modal' ).removeClass('is-active');"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Add New Product</p>
+                <button class="delete" aria-label="close" onclick="$( '.modal' ).removeClass('is-active');"></button>
+            </header>
+            <section class="modal-card-body">
+                <!-- Content ... -->
+                <div class="field">
+                    <label class="label">Product Name</label>
+                    <div class="control">
+                        <input id="new-product-name" class="input" type="text" placeholder="The name of the product">
+                    </div>
+
+                </div>
+                <div class="field">
+                    <label class="label">Image URL</label>
+                    <div class="control">
+                        <input id="new-product-image" class="input" type="text"
+                            placeholder="https://my-product-image.com">
+                    </div>
+
+                </div>
+                <div class="field">
+                    <label class="label">Amount Available</label>
+                    <div class="control">
+                        <input id="new-product-amount" class="input" type="text" placeholder="1-20">
+                    </div>
+
+                </div>
+                <div class="field has-addons">
+                    <p class="control">
+                        <span class="select">
+                            <select>
+                                <option>ETH</option>
+                            </select>
+                        </span>
+                    </p>
+                    <p class="control">
+                        <input class="input" id="new-product-price" type="text" placeholder="Amount">
+                    </p>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="new-product-submit" class="button is-success" >Save
+                    changes</button>
+                <button class="button" onclick="$( '.modal' ).removeClass('is-active');">Cancel</button>
+            </footer>
+        </div>
+    </div>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    
+</body>
+
+</html>
