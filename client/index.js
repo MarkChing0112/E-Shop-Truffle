@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import configuration from '../build/contracts/products.json';
+import data from '../build/contracts/products.json';
 import 'bootstrap/dist/css/bootstrap.css';
 import ticketImage from './images/ticket.png';
 
@@ -10,8 +10,9 @@ const createElementFromString = (string) => {
 };
 
 const CONTRACT_ADDRESS =
-  configuration.networks['5777'].address;
-const CONTRACT_ABI = configuration.abi;
+data.networks['5777'].address;
+console.log(CONTRACT_ADDRESS)
+const CONTRACT_ABI = data.abi;
 
 const web3 = new Web3(
   Web3.givenProvider || 'http://127.0.0.1:1234'
@@ -62,9 +63,10 @@ const addProduct =async (product) =>{
 const refreshProducts = async () =>{
   productsEl.innerHTML = '';
     const product = await contract.methods.productList;
-
+console.log("321312712321368123")
+    let tmp = '';
     for (let i = 0; i < 10; i++) {
-      const productEl = createElementFromString(
+      tmp +=
         ` <div class="card">
         <div class="card-image">
             <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
@@ -85,12 +87,45 @@ const refreshProducts = async () =>{
                 </div>
             </div>
         </div>
-    </div>               
-        `
-      );
+    </div>`
       // productEl.onclick = buyProduct(null, product);
-      productsEl.appendChild(productEl);
+      // productsEl.innerHTML("321312123312")
+      // console.log(productEl)
   }
+  productsEl.appendChild(tmp);
+}
+const initProducts = () =>{
+  console.log("3278118372783129987312987213987231798")
+  console.log("3278118372783129987312987213987231798")
+  console.log("3278118372783129987312987213987231798")
+  console.log("3278118372783129987312987213987231798")
+    let tmp = `
+    <div class="card">
+    <div class="card-image">
+        <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
+        </figure>
+    </div>
+    <div class="card-content">
+        <div class="media">
+            <div class="media-content">
+                <p class="title is-4 product-name" id="product_name">Product Name </p>
+                <p class="subtitle is-7"><span class="product-amount" id="product_quantity">6</span> in stock</p>
+                <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span class="product-price" id="product_price">6</span></p>
+            </div>
+            <div class="buttons">
+                <div class="button is-warning buy-now">Buy Now</div>
+            </div>
+        </div>
+    </div>
+  </div>
+    `;
+    let tmpArr = [];
+    for (let i = 0; i < 10; i++) {
+      tmpArr.push(tmp);
+    }
+
+  console.log(tmp)
+  productsEl.append(tmpArr.toString());
 }
 const refreshTickets = async () => {
   ticketsEl.innerHTML = '';
@@ -119,8 +154,11 @@ const refreshTickets = async () => {
 const main = async () => {
   const accounts = await web3.eth.requestAccounts();
   account = accounts[0];
-  //accountEl.innerText = account;
-  await refreshProducts();
+  accountEl.innerText = account;
+  // await refreshProducts();
+  // initProducts();
+
+
 };
 
 main();
