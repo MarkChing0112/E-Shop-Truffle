@@ -36,9 +36,9 @@ contract products{
         
         productList[product_name].quantity = Quantity;
         productList[product_name].url = url;
-        productList[product_name].price = 1e17;
+        productList[product_name].price = price;
         productList[product_name].isSet = true;
-        productList[product_name].name = product_name;
+        productList[product_name].name = name;
 
         emit Product(product_name, Quantity,name, url, price);
     }

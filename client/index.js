@@ -50,20 +50,21 @@ const buyProduct = async (product) => {
   // .send({from: account, value: product.price});
 }
 
-const addProduct =async (product) =>{
-  // const  name = document.getElementById('new-product-name');
-  // const product_quantity = document.getElementById('new-product-amount');
-  // const url = document.getElementById('new-product-image');
-  // const price = document.getElementById('new-product-price');
-  //Create product to contrac
+// const addProduct =async (product) =>{
+//    const  name = document.getElementById('new-product-name').val();
+//    const product_quantity = document.getElementById('new-product-amount').val();
+//    const url = document.getElementById('new-product-image').val();
+//    const price = document.getElementById('new-product-price').val();
+//   //Create product to contrac
+
   
-  await contract.methods.addProduct("abc",6,"abc","abc",1e17);
-}
+//   await contract.methods.addProduct(id_Str,product_quantity,name,url,web3.utils.toBN(price)).send({form: account,});
+// }
 
 const refreshProducts = async () =>{
   productsEl.innerHTML = '';
     const product = await contract.methods.productList;
-console.log("321312712321368123")
+
     let tmp = '';
     for (let i = 0; i < 10; i++) {
       tmp +=
@@ -95,9 +96,7 @@ console.log("321312712321368123")
   productsEl.appendChild(tmp);
 }
 const initProducts = () =>{
-  console.log("3278118372783129987312987213987231798")
-  console.log("3278118372783129987312987213987231798")
-  console.log("3278118372783129987312987213987231798")
+
   console.log("3278118372783129987312987213987231798")
     let tmp = `
     <div class="card">
@@ -151,14 +150,28 @@ const refreshTickets = async () => {
   }
 };
 
+ const AddProduct = async () =>{
+  var name = document.getElementById('new-product-name').value;
+  var product_quantity= document.getElementById('new-product-amount').value;
+  var url= document.getElementById('new-product-image').value;
+  var price = document.getElementById('new-product-price').value;
+
+  var id = Math.floor(Math.random() * 50);
+  var id_Str = id.toString();
+  console.log(id_Str + " " + name + " " + price+ " " +product_quantity)
+
+  await contract.methods.addProduct(id_Str,product_quantity,name,url,web3.utils.toBN(price)).send({from: account});
+ };
+ document.getElementById("new-product-submit").addEventListener("click", function () {
+  AddProduct();
+});
 const main = async () => {
   const accounts = await web3.eth.requestAccounts();
   account = accounts[0];
   accountEl.innerText = account;
   // await refreshProducts();
   // initProducts();
-
-
+  
 };
 
 main();
