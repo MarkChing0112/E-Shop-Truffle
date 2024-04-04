@@ -1,5 +1,26 @@
-#my-hero{
+/* #my-hero{
     background-image: url("https://blockmason.link/wp-content/uploads/2019/10/roberto-nickson-u6fDUe2x11g-unsplash-1.jpg");
     background-size: cover;
     background-position-y: center;
+} */
+.navbar {
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+  }
+  /* Main content */
+.main {
+    margin-top: 80px; /* Add a top margin to avoid content overlay */
+  }
+
+.container{
+	display: grid;
+	/* grid-template-columns: repeat(auto-fill, minmax(500px,1fr)); */
+    grid-template-rows: auto;
+	grid-gap: 1em;
+    grid-row: 1;
 }
+/* 
+.card{
+	height: max-content;
+} */

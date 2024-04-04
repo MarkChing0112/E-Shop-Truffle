@@ -1,6 +1,17 @@
-#my-hero {
-  background-image: url("https://blockmason.link/wp-content/uploads/2019/10/roberto-nickson-u6fDUe2x11g-unsplash-1.jpg");
-  background-position-y: center;
-  background-size: cover;
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+
+.main {
+  margin-top: 80px;
+}
+
+.container {
+  grid-gap: 1em;
+  grid-row: 1;
+  grid-template-rows: auto;
+  display: grid;
 }
 /*# sourceMappingURL=MainPage.9e4c6fd2.css.map */

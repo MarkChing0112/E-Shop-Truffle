@@ -630,7 +630,7 @@ const buyProduct = async (product_number, price)=>{
 const GetAllProducts = async ()=>{
     let tmp = "";
     //Product Element
-    const productsEl = document.getElementById("products");
+    const productsEl = document.getElementById("product");
     const keys = await contract.methods.getMyStructsKeys().call();
     console.log("Keys of Products", keys);
     const myProducts = [];
@@ -652,30 +652,35 @@ const GetAllProducts = async ()=>{
             let key = data[4][i];
             count[key] = count[key] ? count[key] + 1 : 1;
         }
-        let countString = JSON.stringify(count, null, 2);
+        let countString = JSON.stringify(count, null, 0.2);
         if (remain > 0) {
-            productDiv.innerHTML = `
-          <div class="card-image">
-              <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
-              <img src="${data[2]}" alt="Girl in a jacket">
-              </figure>
-          </div>
-          <div class="card-content">
-              <div class="media">
-                  <div class="media-content">
-                      <p class="title is-4 product-name" id="product_name">${data[0]}</p>
-                      <p class="subtitle is-7"><span class="product-amount" id="product_quantity"></span>${remain} in stock</p>
-                      Owners:<textarea class"subtitle is-7"> ${countString}</textarea>
-                      <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
-                              class="product-price" id="product_price">0.1 ETH</span></p>
-                  </div>
-                  <div class="buttons">
-                      <div class="button is-warning buy-now">
-                          Buy Now
+            productDiv.innerHTML = ` 
+          
+            <div class="card ">
+              <div class="card-image ">
+                  <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
+                  <img src="${data[2]}" alt="">
+                  </figure>
+              </div>
+
+              <div class="card-body ">
+                  <div class="media">
+                      <div class="media-content" >
+                          <p class="title is-4 product-name" id="product_name">${data[0]}</p>
+                          <p class="subtitle is-7">${remain} in stock</p>
+                          Owners:<textarea class"subtitle is-7"> ${countString}</textarea>
+                          <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
+                                  class="product-price" id="product_price">0.1 ETH</span></p>
+                      </div>
+                      <div class="buttons">
+                          <div class="btn btn-warning buy-now">
+                              Buy Now
+                          </div>
                       </div>
                   </div>
               </div>
-          </div>
+            </div>
+          </div
           `;
             console.log("keys id", keys[i]);
             // productDiv.onclick = buyProduct(keys[i],data[3]);
@@ -685,27 +690,32 @@ const GetAllProducts = async ()=>{
             productsEl.appendChild(productDiv);
         } else {
             productDiv.innerHTML = `
-      <div class="card-image">
-          <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
-          <img src="${data[2]}" alt="Girl in a jacket">
-          </figure>
-      </div>
-      <div class="card-content">
-          <div class="media">
-              <div class="media-content">
-                  <p class="title is-4 product-name" id="product_name">${data[0]}</p>
-                  <p class="subtitle is-7"><span class="product-amount" id="product_quantity"></span>${remain} in stock</p>
-                  Owners:<textarea class"subtitle is-7"> ${countString}</textarea>
-                  <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
-                          class="product-price" id="product_price">0.1 ETH</span></p>
-              </div>
-              <div class="buttons">
-                  <div class="button is-warning buy-now">
-                      sold Out!!!!!!!!!!!!!!!!!!!
+
+        <div class="card">
+          <div class="card-image">
+              <figure class="image is-4by3" ; >
+              <img src="${data[2]}" alt="Girl in a jacket">
+              </figure>
+          </div>
+          
+          <div class="card-content">
+              <div class="media">
+                  <div class="media-content">
+                      <p class="title is-4 ">${data[0]}</p>
+                      <p class="subtitle is-7">${remain} in stock</p>
+                      Owners:<textarea class"subtitle is-7"> ${countString}</textarea>
+                      <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
+                              class="product-price" id="product_price">0.1 ETH</span></p>
+                  </div>
+                  <div class="buttons">
+                      <div class="btn btn-outline-danger">
+                          sold Out!!!!
+                      </div>
                   </div>
               </div>
+            </div>
           </div>
-      </div>
+        
       `;
             productsEl.appendChild(productDiv);
         }
