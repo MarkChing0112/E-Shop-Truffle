@@ -27,8 +27,7 @@ let account;
 const accountEl = document.getElementById('account');
 const ticketsEl = document.getElementById('tickets');
 
-//Product Element
-const productsEl = document.getElementById('products');
+
 const AddproductEl= document.getElementById('add-product')
 
 const TOTAL_TICKETS = 10;
@@ -61,12 +60,59 @@ const buyProduct = async (product) => {
 //   await contract.methods.addProduct(id_Str,product_quantity,name,url,web3.utils.toBN(price)).send({form: account,});
 // }
 
+//get Products Function
+const GetAllProducts = async ()=>{
+  let tmp ="";
+  //Product Element
+  const productsEl = document.getElementById('products');
+  const keys = await contract.methods.getMyStructsKeys().call();
+  console.log("Keys of Products",keys);
+    const myProducts = [];
+    for (let i = 0; i < keys.length; i++) {
+        const myProduct = await contract.methods.getMyProduct(keys[i]).call();
+        console.log("Product",myProduct);
+        myProducts.push(myProduct);
+        
+        //display product in html
+        let data = myProducts[i];
+        console.log("data",data);
+        tmp+=
+          `
+          <div class="card " >
+          <div class="card-image">
+              <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
+              <img src="${data[2]}" alt="Girl in a jacket">
+              </figure>
+          </div>
+          <div class="card-content">
+              <div class="media">
+                  <div class="media-content">
+                      <p class="title is-4 product-name" id="product_name">${data[0]}</p>
+                      <p class="subtitle is-7"><span class="product-amount" id="product_quantity"></span>${data[1]} in stock</p>
+                      <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
+                              class="product-price" id="product_price">0.1 ETH</span></p>
+                  </div>
+                  <div class="buttons">
+                      <div class="button is-warning buy-now">
+                          Buy Now
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+          `
+    }
+    console.log("MyProducts",myProducts);
+    productsEl.innerHTML=tmp;
+    
+}
+
 const refreshProducts = async () =>{
-  productsEl.innerHTML = '';
+  // productsEl.innerHTML = '';
     let tmp = '';
     for (let i = 0; i < 10; i++) {
       var i_Str = i.toString();
-      const product = await contract.productList[i_Str].call();
+      const product = await contract.productList[i].call();
       const productEl = createElementFromString(
         `
         <div class="card">
@@ -93,44 +139,48 @@ const refreshProducts = async () =>{
     </div>
         `
       )
+      console.log(myProducts);
       // productsEl.onclick = buyTicket.bind(null, product);
       productsEl.appendChild(productEl);
   }
 };
 
-const refreshTickets = async () => {
-  ticketsEl.innerHTML = '';
-  for (let i = 0; i < TOTAL_TICKETS; i++) {
-    const ticket = await contract.methods.tickets(i).call();
-    ticket.id = i;
-    if (ticket.owner === EMPTY_ADDRESS) {
-      const ticketEl = createElementFromString(
-        `<div class="ticket card" style="width: 18rem;">
-          <img src="${ticketImage}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Ticket</h5>
-            <p class="card-text">${
-              ticket.price / 1e18
-            } Eth</p>
-            <button class="btn btn-primary">Buy Ticket</button>
-          </div>
-        </div>`
-      );
-      ticketEl.onclick = buyTicket.bind(null, ticket);
-      ticketsEl.appendChild(ticketEl);
-    }
-  }
-};
+// const refreshTickets = async () => {
+//   ticketsEl.innerHTML = '';
+//   for (let i = 0; i < TOTAL_TICKETS; i++) {
+//     const ticket = await contract.methods.tickets(i).call();
+//     ticket.id = i;
+//     if (ticket.owner === EMPTY_ADDRESS) {
+//       const ticketEl = createElementFromString(
+//         `<div class="ticket card" style="width: 18rem;">
+//           <img src="${ticketImage}" class="card-img-top" alt="...">
+//           <div class="card-body">
+//             <h5 class="card-title">Ticket</h5>
+//             <p class="card-text">${
+//               ticket.price / 1e18
+//             } Eth</p>
+//             <button class="btn btn-primary">Buy Ticket</button>
+//           </div>
+//         </div>`
+//       );
+//       ticketEl.onclick = buyTicket.bind(null, ticket);
+//       ticketsEl.appendChild(ticketEl);
+//     }
+//   }
+// };
 
  const AddProduct = async () =>{
   var name = document.getElementById('new-product-name').value;
   var product_quantity= document.getElementById('new-product-amount').value;
   var url= document.getElementById('new-product-image').value;
   var price = document.getElementById('new-product-price').value;
-
+  //get product length
+  const keys = await contract.methods.getMyStructsKeys().call();
   // var id = Math.floor(Math.random() * 50);
-  var id=0;
+  var id=keys.length + 1;
+  console.log(id);
   var id_Str = id.toString();
+  console.log(id_Str);
   console.log(id_Str + " " + name + " " + price+ " " +product_quantity)
 
   await contract.methods.addProduct(id_Str,product_quantity,name,url,web3.utils.toBN(price)).send({from: account});
@@ -143,7 +193,8 @@ const main = async () => {
   const accounts = await web3.eth.requestAccounts();
   account = accounts[0];
   accountEl.innerText = account;
-  await refreshProducts();
+  await GetAllProducts();
+  // await refreshProducts();
   // initProducts();
   
 };
