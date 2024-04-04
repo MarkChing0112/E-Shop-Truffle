@@ -633,20 +633,24 @@ const buyProduct = async (product)=>{
 // }
 const refreshProducts = async ()=>{
     productsEl.innerHTML = "";
-    const product = await contract.methods.productList;
     let tmp = "";
-    for(let i = 0; i < 10; i++)tmp += ` <div class="card">
+    for(let i = 0; i < 10; i++){
+        var i_Str = i.toString();
+        const product = await contract.productList[i_Str].call();
+        const productEl = createElementFromString(`
+        <div class="card">
         <div class="card-image">
             <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
+            <img src="${product.url}" alt="Girl in a jacket">
             </figure>
         </div>
         <div class="card-content">
             <div class="media">
                 <div class="media-content">
-                    <p class="title is-4 product-name" id="product_name">Product Name </p>
-                    <p class="subtitle is-7"><span class="product-amount" id="product_quantity">6</span> in stock</p>
+                    <p class="title is-4 product-name" id="product_name">${product.name}</p>
+                    <p class="subtitle is-7"><span class="product-amount" id="product_quantity">6</span>${product.quantity} in stock</p>
                     <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
-                            class="product-price" id="product_price">6</span></p>
+                            class="product-price" id="product_price">${product.price}</span></p>
                 </div>
                 <div class="buttons">
                     <div class="button is-warning buy-now">
@@ -655,35 +659,11 @@ const refreshProducts = async ()=>{
                 </div>
             </div>
         </div>
-    </div>`;
-    productsEl.appendChild(tmp);
-};
-const initProducts = ()=>{
-    console.log("3278118372783129987312987213987231798");
-    let tmp = `
-    <div class="card">
-    <div class="card-image">
-        <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
-        </figure>
     </div>
-    <div class="card-content">
-        <div class="media">
-            <div class="media-content">
-                <p class="title is-4 product-name" id="product_name">Product Name </p>
-                <p class="subtitle is-7"><span class="product-amount" id="product_quantity">6</span> in stock</p>
-                <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span class="product-price" id="product_price">6</span></p>
-            </div>
-            <div class="buttons">
-                <div class="button is-warning buy-now">Buy Now</div>
-            </div>
-        </div>
-    </div>
-  </div>
-    `;
-    let tmpArr = [];
-    for(let i = 0; i < 10; i++)tmpArr.push(tmp);
-    console.log(tmp);
-    productsEl.append(tmpArr.toString());
+        `);
+        // productsEl.onclick = buyTicket.bind(null, product);
+        productsEl.appendChild(productEl);
+    }
 };
 const refreshTickets = async ()=>{
     ticketsEl.innerHTML = "";
@@ -709,12 +689,14 @@ const AddProduct = async ()=>{
     var product_quantity = document.getElementById("new-product-amount").value;
     var url = document.getElementById("new-product-image").value;
     var price = document.getElementById("new-product-price").value;
-    var id = Math.floor(Math.random() * 50);
+    // var id = Math.floor(Math.random() * 50);
+    var id = 0;
     var id_Str = id.toString();
     console.log(id_Str + " " + name + " " + price + " " + product_quantity);
     await contract.methods.addProduct(id_Str, product_quantity, name, url, web3.utils.toBN(price)).send({
         from: account
     });
+    id += 1;
 };
 document.getElementById("new-product-submit").addEventListener("click", function() {
     AddProduct();
@@ -723,7 +705,7 @@ const main = async ()=>{
     const accounts = await web3.eth.requestAccounts();
     account = accounts[0];
     accountEl.innerText = account;
-// await refreshProducts();
+    await refreshProducts();
 // initProducts();
 };
 main();
