@@ -55,8 +55,8 @@ contract products{
 
     
     //getter of ProductLists data
-     function getMyProduct(string calldata product_name) public view returns(string memory, uint256,string memory,string memory) {
-        return (productList[product_name].name, productList[product_name].quantity, productList[product_name].url,productList[product_name].price);
+     function getMyProduct(string calldata product_name) public view returns(string memory, uint256,string memory,string memory,address[] memory) {
+        return (productList[product_name].name, productList[product_name].quantity, productList[product_name].url,productList[product_name].price,productList[product_name].purchasers);
     }
     //getter of ProductLists length
     function getMyStructsKeys() public view returns(string[] memory) {
