@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 contract products{
     address public purchasers;
     // uint256 constant Total_Supply = 20;
-    event Product(string product_name, uint256 quantity,string name, string url, uint256 price);
+    event Product(string product_name, uint256 quantity,string name, string url, string price);
     address public authority;
 
     struct ProductDetails {
@@ -12,7 +12,7 @@ contract products{
         address[] purchasers;
         string name;
         string url;
-        uint256 price;
+        string price;
         bool isSet;
     }
     mapping(string => ProductDetails) public productList;
@@ -33,7 +33,7 @@ contract products{
         authority = msg.sender;
     }
     //Set product to contract;
-    function addProduct(string calldata product_name, uint256 Quantity,string calldata name, string calldata url, uint256 price) public {
+    function addProduct(string calldata product_name, uint256 Quantity,string calldata name, string calldata url, string memory price) public {
         ProductDetails storage Productlist = productList[product_name];
         
         Productlist.quantity = Quantity;
@@ -58,7 +58,7 @@ contract products{
     }
     
     //getter of ProductLists data
-     function getMyProduct(string calldata product_name) public view returns(string memory, uint256,string memory,uint256) {
+     function getMyProduct(string calldata product_name) public view returns(string memory, uint256,string memory,string memory) {
         return (productList[product_name].name, productList[product_name].quantity, productList[product_name].url,productList[product_name].price);
     }
     //getter of ProductLists length
@@ -66,23 +66,15 @@ contract products{
         return myStructsKeys;
     }
 
-
+   function getPurchasers(string calldata product_name) public view returns (address[] memory purchasers) {
+        return productList[product_name].purchasers;
+    }
     //Testing get purchasers
-    // function getProductDetail(string calldata product_name) public view returns (address[] memory purchasers,uint256 countRemain,string memory name,string memory url,uint256 price) {
-    //     countRemain = productList[product_name].quantity - productList[product_name].purchasers.length;
-    //     name = productList[product_name].name;
-    //     url = productList[product_name].url;
-    //     price = productList[product_name].price;
-    //     return (productList[product_name].purchasers,countRemain,name,url,price);
-    // }
-
-    // function getcountPurchasers(string calldata product_name) public view returns (uint256){
+    // function getcountRemain(string calldata product_name) public view returns (uint256){
     //     uint256 countRemain = productList[product_name].quantity - productList[product_name].purchasers.length;
     //     return countRemain;
     // }
-    // function getPurchasers(string memory product) public view returns (address[] memory purchasers) {
-    //     return productList[product].purchasers;
-    // }
+ 
     //testing metamusk buy product
     // function buyTicket(uint256 _index) external payable{
     //     require(_index < Total_Supply && _index >= 0);

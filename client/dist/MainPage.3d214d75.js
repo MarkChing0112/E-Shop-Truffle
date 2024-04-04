@@ -615,37 +615,31 @@ const buyTicket = async (ticket)=>{
         value: ticket.price
     });
 };
-const buyProduct = async (product)=>{
-//const purchaseser = await contract.methods.getPurchasers(product);
-// await contract.methods
-// .purchaseProduct(product, purchaseser)
-// .send({from: account, value: product.price});
+const buyProduct = async (product_number, price)=>{
+    console.log("BuyProduct function:", product_number, price);
+// await contract.methods.buyProduct(product_number, account)
+//  .send({from: account, value: price});
 };
-// const addProduct =async (product) =>{
-//    const  name = document.getElementById('new-product-name').val();
-//    const product_quantity = document.getElementById('new-product-amount').val();
-//    const url = document.getElementById('new-product-image').val();
-//    const price = document.getElementById('new-product-price').val();
-//   //Create product to contrac
-//   await contract.methods.addProduct(id_Str,product_quantity,name,url,web3.utils.toBN(price)).send({form: account,});
-// }
 //get Products Function
 const GetAllProducts = async ()=>{
     let tmp = "";
     //Product Element
-    const productsEl1 = document.getElementById("products");
+    const productsEl = document.getElementById("products");
     const keys = await contract.methods.getMyStructsKeys().call();
     console.log("Keys of Products", keys);
-    const myProducts1 = [];
+    const myProducts = [];
     for(let i = 0; i < keys.length; i++){
         const myProduct = await contract.methods.getMyProduct(keys[i]).call();
         console.log("Product", myProduct);
-        myProducts1.push(myProduct);
+        myProducts.push(myProduct);
+        // myProduct.id = keys[i];
         //display product in html
-        let data = myProducts1[i];
-        console.log("data", data);
-        tmp += `
-          <div class="card " >
+        let data = myProducts[i];
+        // console.log("data",data);
+        // Create a new div element for the product
+        let productDiv = document.createElement("div");
+        productDiv.className = "card";
+        productDiv.innerHTML = `
           <div class="card-image">
               <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
               <img src="${data[2]}" alt="Girl in a jacket">
@@ -666,70 +660,34 @@ const GetAllProducts = async ()=>{
                   </div>
               </div>
           </div>
-      </div>
           `;
-    }
-    console.log("MyProducts", myProducts1);
-    productsEl1.innerHTML = tmp;
-};
-const refreshProducts = async ()=>{
-    // productsEl.innerHTML = '';
-    let tmp = "";
-    for(let i = 0; i < 10; i++){
-        var i_Str = i.toString();
-        const product = await contract.productList[i].call();
-        const productEl = createElementFromString(`
-        <div class="card">
-        <div class="card-image">
-            <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
-            <img src="${product.url}" alt="Girl in a jacket">
-            </figure>
-        </div>
-        <div class="card-content">
-            <div class="media">
-                <div class="media-content">
-                    <p class="title is-4 product-name" id="product_name">${product.name}</p>
-                    <p class="subtitle is-7"><span class="product-amount" id="product_quantity">6</span>${product.quantity} in stock</p>
-                    <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
-                            class="product-price" id="product_price">${product.price}</span></p>
-                </div>
-                <div class="buttons">
-                    <div class="button is-warning buy-now">
-                        Buy Now
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-        `);
-        console.log(myProducts);
-        // productsEl.onclick = buyTicket.bind(null, product);
-        productsEl.appendChild(productEl);
+        console.log("keys id", keys[i]);
+        // productDiv.onclick = buyProduct(keys[i],data[3]);
+        // Get the "Buy Now" button and attach the click event listener
+        const buyNowButton = productDiv.querySelector(".buy-now");
+        buyNowButton.addEventListener("click", ()=>buyProduct(keys[i], data[3]));
+        productsEl.appendChild(productDiv);
     }
 };
-// const refreshTickets = async () => {
-//   ticketsEl.innerHTML = '';
-//   for (let i = 0; i < TOTAL_TICKETS; i++) {
-//     const ticket = await contract.methods.tickets(i).call();
-//     ticket.id = i;
-//     if (ticket.owner === EMPTY_ADDRESS) {
-//       const ticketEl = createElementFromString(
-//         `<div class="ticket card" style="width: 18rem;">
-//           <img src="${ticketImage}" class="card-img-top" alt="...">
-//           <div class="card-body">
-//             <h5 class="card-title">Ticket</h5>
-//             <p class="card-text">${
-//               ticket.price / 1e18
-//             } Eth</p>
-//             <button class="btn btn-primary">Buy Ticket</button>
-//           </div>
-//         </div>`
-//       );
-//       ticketEl.onclick = buyTicket.bind(null, ticket);
-//       ticketsEl.appendChild(ticketEl);
-//     }
-//   }
-// };
+const refreshTickets = async ()=>{
+    ticketsEl.innerHTML = "";
+    for(let i = 0; i < TOTAL_TICKETS; i++){
+        const ticket = await contract.methods.tickets(i).call();
+        ticket.id = i;
+        if (ticket.owner === EMPTY_ADDRESS) {
+            const ticketEl = createElementFromString(`<div class="ticket card" style="width: 18rem;">
+          <img src="${(0, _ticketPngDefault.default)}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Ticket</h5>
+            <p class="card-text">${ticket.price / 1e18} Eth</p>
+            <button class="btn btn-primary">Buy Ticket</button>
+          </div>
+        </div>`);
+            ticketEl.onclick = buyTicket.bind(null, ticket);
+            ticketsEl.appendChild(ticketEl);
+        }
+    }
+};
 const AddProduct = async ()=>{
     var name = document.getElementById("new-product-name").value;
     var product_quantity = document.getElementById("new-product-amount").value;
