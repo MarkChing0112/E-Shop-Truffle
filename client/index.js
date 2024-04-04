@@ -43,9 +43,12 @@ const buyTicket = async (ticket) => {
 };
 
 const buyProduct = async (product_number,price) => {
-  console.log("BuyProduct function:",product_number,price)
-  // await contract.methods.buyProduct(product_number, account)
-  //  .send({from: account, value: price});
+  console.log("BuyProduct Function Receive data:",product_number,price)
+  let Dprice = Number(price).toString();
+  await contract.methods.buyProduct(product_number, account)
+  .send({from: account, value: Dprice});
+  let purchasersAry = await contract.methods.getPurchasers(product_number).call();
+  console.log("purchasers: ",purchasersAry);
 }
 
 //get Products Function
@@ -59,15 +62,18 @@ const GetAllProducts = async ()=>{
     for (let i = 0; i < keys.length; i++) {
         const myProduct = await contract.methods.getMyProduct(keys[i]).call();
         console.log("Product",myProduct);
+        //append product to array
         myProducts.push(myProduct);
-        // myProduct.id = keys[i];
-        //display product in html
+
+        //get data from each product
         let data = myProducts[i];
-        // console.log("data",data);
+        
+        //get remain of each product
+        const remain = await contract.methods.getcountRemain(keys[i]).call();
         // Create a new div element for the product
         let productDiv = document.createElement('div');
         productDiv.className = 'card';
-
+        if(remain > 0){
         productDiv.innerHTML =
           `
           <div class="card-image">
@@ -96,8 +102,33 @@ const GetAllProducts = async ()=>{
       // Get the "Buy Now" button and attach the click event listener
       const buyNowButton = productDiv.querySelector('.buy-now');
       buyNowButton.addEventListener('click', () => buyProduct(keys[i], data[3]));
-
       productsEl.appendChild(productDiv);
+    }else{
+      productDiv.innerHTML =
+      `
+      <div class="card-image">
+          <figure class="image is-4by3" style="background-size: cover; background-position-y: center;">
+          <img src="${data[2]}" alt="Girl in a jacket">
+          </figure>
+      </div>
+      <div class="card-content">
+          <div class="media">
+              <div class="media-content">
+                  <p class="title is-4 product-name" id="product_name">${data[0]}</p>
+                  <p class="subtitle is-7"><span class="product-amount" id="product_quantity"></span>${data[1]} in stock</p>
+                  <p class="subtitle is-4 has-text-primary has-text-weight-semibold">$<span
+                          class="product-price" id="product_price">0.1 ETH</span></p>
+              </div>
+              <div class="buttons">
+                  <div class="button is-warning buy-now">
+                      sold Out!!!!!!!!!!!!!!!!!!!
+                  </div>
+              </div>
+          </div>
+      </div>
+      `;
+      productsEl.appendChild(productDiv);
+    }
     }
 }
 
@@ -139,7 +170,7 @@ const refreshTickets = async () => {
   console.log(id_Str);
   console.log(id_Str + " " + name + " " + price+ " " +product_quantity)
 
-  await contract.methods.addProduct(id_Str,product_quantity,name,url,web3.utils.toBN(price)).send({from: account});
+  await contract.methods.addProduct(id_Str,product_quantity,name,url,price).send({from: account});
   id+=1;
 };
  document.getElementById("new-product-submit").addEventListener("click", function () {

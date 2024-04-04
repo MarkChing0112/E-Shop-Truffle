@@ -52,10 +52,7 @@ contract products{
     //     productList[product_name].quantity += addQuantity;
     // }
     
-    function purchaseProduct(string calldata product_name, address purchaser) public { 
-        require(productList[product_name].purchasers.length < productList[product_name].quantity); 
-        productList[product_name].purchasers.push(purchaser);
-    }
+
     
     //getter of ProductLists data
      function getMyProduct(string calldata product_name) public view returns(string memory, uint256,string memory,string memory) {
@@ -66,14 +63,14 @@ contract products{
         return myStructsKeys;
     }
 
-   function getPurchasers(string calldata product_name) public view returns (address[] memory purchasers) {
+   function getPurchasers(string calldata product_name) public view returns (address[] memory) {
         return productList[product_name].purchasers;
     }
     //Testing get purchasers
-    // function getcountRemain(string calldata product_name) public view returns (uint256){
-    //     uint256 countRemain = productList[product_name].quantity - productList[product_name].purchasers.length;
-    //     return countRemain;
-    // }
+    function getcountRemain(string calldata product_name) public view returns (uint256) {
+        uint256 countRemain = productList[product_name].quantity - productList[product_name].purchasers.length;
+        return countRemain;
+    }
  
     //testing metamusk buy product
     // function buyTicket(uint256 _index) external payable{
@@ -83,5 +80,9 @@ contract products{
 
     //     tickets[_index].owner = msg.sender;
     // }
+    function buyProduct(string calldata product_name, address purchaser) external payable { 
+        require(productList[product_name].purchasers.length < productList[product_name].quantity); 
+        productList[product_name].purchasers.push(purchaser);
+    }
     
 }
