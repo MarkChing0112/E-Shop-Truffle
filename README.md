@@ -14,11 +14,10 @@ Add the private key account to mata musk
 ```
 **Step 3- Deploy Contract**
 ```
-__In default terminal__
-`truffle migrate`
+truffle migrate
 ```
 **Step 4- Starting server**
 ```
-`cd client`
-`npm run start`
+cd client
+npm run start
 ```
