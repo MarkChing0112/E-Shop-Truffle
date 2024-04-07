@@ -11,38 +11,45 @@
 </head>
 
 <body>
+<section class="hero is-black is-medium" id="my-hero">
+        <!-- Hero head: will stick at the top -->
 <!--Navigation bar-->
 <nav class="navbar navbar-dark bg-dark">
-   
-    <div class="navbar-brand">wallet:<a class="navbar-brand" id="account">
-    </a></div>
-    <div id="add-product" class="">
-        <a class="button is-large is-info" onclick="$( '.modal' ).addClass('is-active');">
-            <span class="icon is-large">
-                <i class="fas fa-plus"></i>
-            </span>
-            <span>
-                Add New Product
-            </span>
-        </a>
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container"> 
+                <div><a>E-SHOP</a></div>
+                <div class="navbar-brand has-text-light">wallet:<a class="navbar-brand has-text-light" id="account"></a>
+                    
+                </div>
+            </div>
+        </nav>
     </div>
-</nav>
+</nav></section>
 <!--Body Main contant-->
-    <div class="main">
-        <div class="container">
-            <div class="columns is-centered is-three-quarters is-gapless is-multiline is-mobile">
-
+<section class="main section container">
+    <div id="product-area" class="columns is-multiline">
                     <div class="column is-three-fifths" id="product">
                         <!-- Products Go Here -->
 
                             <!-- <div class="card"id="products"></div> -->
 
                     </div>
-                
-            </div>
+    </div>
+
+    <div id="add-product">
+        <div class="buttons">
+            <a class="button is-large is-info" onclick="$( '.modal' ).addClass('is-active');">
+                <span class="icon is-large">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>
+                    Add New Product
+                </span>
+            </a>
         </div>
     </div>
-    
+</section>
     <!--Add Product Unit-->
     <div class="modal" id="add-new-product">
         <div class="modal-background" onclick="$( '.modal' ).removeClass('is-active');"></div>

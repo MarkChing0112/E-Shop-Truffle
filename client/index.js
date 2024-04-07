@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import data from '../build/contracts/products.json';
 import 'bootstrap/dist/css/bootstrap.css';
-import ticketImage from './images/ticket.png';
+
 
 const createElementFromString = (string) => {
   const el = document.createElement('div');
@@ -25,23 +25,7 @@ const contract = new web3.eth.Contract(
 let account;
 
 const accountEl = document.getElementById('account');
-const ticketsEl = document.getElementById('tickets');
-
-
-const AddproductEl= document.getElementById('add-product')
-
-const TOTAL_TICKETS = 10;
-const EMPTY_ADDRESS =
-  '0x0000000000000000000000000000000000000000';
-
-const TOTAL_Products = 10;
-
-const buyTicket = async (ticket) => {
-  await contract.methods
-    .buyTicket(ticket.id)
-    .send({ from: account, value: ticket.price });
-};
-
+//user buy product from contract
 const buyProduct = async (product_number,price) => {
   console.log("BuyProduct Function Receive data:",product_number,price)
   let Dprice = Number(price).toString();
@@ -112,7 +96,6 @@ const GetAllProducts = async ()=>{
           </div
           `;
       console.log("keys id",keys[i])
-      // productDiv.onclick = buyProduct(keys[i],data[3]);
       // Get the "Buy Now" button and attach the click event listener
       const buyNowButton = productDiv.querySelector('.buy-now');
       buyNowButton.addEventListener('click', () => buyProduct(keys[i], data[3]));
@@ -151,31 +134,7 @@ const GetAllProducts = async ()=>{
     }
     }
 }
-
-const refreshTickets = async () => {
-  ticketsEl.innerHTML = '';
-  for (let i = 0; i < TOTAL_TICKETS; i++) {
-    const ticket = await contract.methods.tickets(i).call();
-    ticket.id = i;
-    if (ticket.owner === EMPTY_ADDRESS) {
-      const ticketEl = createElementFromString(
-        `<div class="ticket card" style="width: 18rem;">
-          <img src="${ticketImage}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Ticket</h5>
-            <p class="card-text">${
-              ticket.price / 1e18
-            } Eth</p>
-            <button class="btn btn-primary">Buy Ticket</button>
-          </div>
-        </div>`
-      );
-      ticketEl.onclick = buyTicket.bind(null, ticket);
-      ticketsEl.appendChild(ticketEl);
-    }
-  }
-};
-
+//Addproduct to contract
  const AddProduct = async () =>{
   var name = document.getElementById('new-product-name').value;
   var product_quantity= document.getElementById('new-product-amount').value;
